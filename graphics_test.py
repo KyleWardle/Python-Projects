@@ -11,7 +11,7 @@ def createStump(window,x,y):
 	stump = Rectangle(Point(x-7, y+20), Point(x+7, y))
 	stump.setFill("brown")
 	stump.draw(window)
-	
+
 def createTriangle(window,x,y,size,color):
 	vertices = []
 	vertices.append(Point(x-(size/2), y))
@@ -21,18 +21,18 @@ def createTriangle(window,x,y,size,color):
 	triangle.setFill(color)
 	triangle.draw(window)
 
-def createTree(window, x, y): 
+def createTree(window, x, y):
 	createStump(window, x, y)
 	createTriangle(window, x, y+15, 40, "green")
 	createTriangle(window, x, y+35, 30, "green")
 	createTriangle(window, x, y+55, 20, "green")
-	
+
 def createBackground(window, skyColor, groundColor):
 	sky = Rectangle(Point(canvasSize, canvasSize), Point(0, canvasSize/3))
 	sky.setFill(skyColor)
 	sky.setOutline(skyColor)
 	sky.draw(window)
-	
+
 	ground = Rectangle(Point(0, 0), Point(canvasSize, canvasSize/3))
 	ground.setFill(groundColor)
 	ground.setOutline(groundColor)
@@ -40,7 +40,7 @@ def createBackground(window, skyColor, groundColor):
 
 def createMountain(window):
 	createTriangle(window, randint(0, canvasSize), (canvasSize/3), randint(0, canvasSize / 2), "grey")
-	
+
 
 
 win = GraphWin(width = 400, height = 400) # create a window
@@ -61,7 +61,7 @@ for a in range(1, 10):
 		xCoord =  randint(0, canvasSize)
 		createTree(win, xCoord, yCoord)
 
-		
+
 
 
 win.getMouse()
@@ -78,5 +78,3 @@ win.getMouse()
 #mySquare = Rectangle(Point(1, 1), Point(99, 99)) # create a rectangle from (1, 1) to (9, 9)
 #mySquare.draw(win) # draw it to the window
 #win.getMouse() # pause before closing
-
-

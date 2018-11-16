@@ -15,7 +15,7 @@ def createStump(window,x,y):
 def createTriangle(window,x,y,size,color):
 	vertices = []
 	vertices.append(Point(x-(size/2), y))
-	vertices.append(Point(x, y+(size - (size/3)))
+	vertices.append(Point(x, y+(size - (size/3))))
 	vertices.append(Point(x+(size/2), y))
 	triangle = Polygon(vertices)      # Create the triangle
 	triangle.setFill(color)
@@ -41,30 +41,28 @@ def createBackground(window, skyColor, groundColor):
 def createMountain(window):
 	createTriangle(window, randint(0, canvasSize), (canvasSize/3), randint(0, canvasSize / 2), "grey")
 
+def createForest(window):
+	for a in range(1, 10):
+		yCoord = (canvasSize / 3) / 10 * (10 - a)
+		for b in range(1, 20):
+			xCoord =  randint(0, canvasSize)
+			createTree(window, xCoord, yCoord)
+
+def createMountains(window, mountain_count):
+	for i in range(0, mountain_count):
+		createMountain(window)
+
+def createScene():
+	win = GraphWin(width = 600, height = 600) # create a window
+	win.setCoords(0, 0, canvasSize, canvasSize) # set the coordinates of the window; bottom left is (0, 0) and top right is (10, 10)
+	createBackground(win, "lightblue", "lightgreen")
+	createMountains(win, randint(2, 5))
+	createForest(win)
+	win.getMouse()
 
 
-win = GraphWin(width = 400, height = 400) # create a window
-win.setCoords(0, 0, canvasSize, canvasSize) # set the coordinates of the window; bottom left is (0, 0) and top right is (10, 10)
+createScene()
 
-createBackground(win, "lightblue", "lightgreen")
-
-#for x in range(0, 100):
-#	randX = randint(0, math.trunc((canvasSize)))
-#	randY = randint(0, math.trunc((canvasSize/3)))
-#	createTree(win, randX, randY)
-
-createMountain(win)
-
-for a in range(1, 10):
-	yCoord = (canvasSize / 3) / 10 * (10 - a)
-	for b in range(1, 20):
-		xCoord =  randint(0, canvasSize)
-		createTree(win, xCoord, yCoord)
-
-
-
-
-win.getMouse()
 
 
 
