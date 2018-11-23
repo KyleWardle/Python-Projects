@@ -39,7 +39,7 @@ def createBackground(window, skyColor, groundColor):
 	ground.draw(window)
 
 def createMountain(window):
-	createTriangle(window, randint(0, canvasSize), (canvasSize/3), randint(0, canvasSize / 2), "grey")
+	createTriangle(window, randint(0, canvasSize), (canvasSize/3), randint(0, canvasSize), "grey")
 
 def createForest(window):
 	for a in range(1, 10):
@@ -52,12 +52,41 @@ def createMountains(window, mountain_count):
 	for i in range(0, mountain_count):
 		createMountain(window)
 
+def createSun(window):
+	sunSize = 35
+	sun = Circle(Point(canvasSize + sunSize, (70 / 100) * canvasSize), sunSize)
+	sun.setFill("yellow")
+	sun.setOutline("yellow")
+	sun.draw(window)
+	return sun
+
+def animateSun(window, sun):
+	height = (70 / 100) * canvasSize
+	heightLeft = (30 / 100) * canvasSize
+	width = canvasSize + 70
+
+	heightIncrement =  heightLeft / (width / 2)
+	for i in range(0, width):
+		time.sleep(0.01)
+		if (i <= (width / 2)):
+			sun.move(-1, heightIncrement)
+		else:
+			sun.move(-1, -heightIncrement)
+
+	sun = createSun(window)
+	animateSun(window, sun)
+
+
+
+
 def createScene():
 	win = GraphWin(width = 600, height = 600) # create a window
 	win.setCoords(0, 0, canvasSize, canvasSize) # set the coordinates of the window; bottom left is (0, 0) and top right is (10, 10)
 	createBackground(win, "lightblue", "lightgreen")
+	sun = createSun(win)
 	createMountains(win, randint(2, 5))
 	createForest(win)
+	animateSun(win, sun)
 	win.getMouse()
 
 
