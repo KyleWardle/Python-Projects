@@ -60,10 +60,13 @@ def createSun(window):
 	sun.draw(window)
 	return sun
 
+def calculateYCoord(xCoord):
+	return sqrt(700 - (xCoord - 500)) + 200
+
 def animateSun(window, sun):
 	height = (70 / 100) * canvasSize
 	heightLeft = (30 / 100) * canvasSize
-	width = canvasSize + 70
+	width = canvasSize + 400
 
 	heightIncrement =  heightLeft / (width / 2)
 	for i in range(0, width):
