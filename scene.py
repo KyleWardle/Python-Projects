@@ -61,9 +61,13 @@ def createSun(window):
 	return sun
 
 def calculateYCoord(xCoord):
-	return sqrt(700 - (xCoord - 500)) + 200
+	return 200 - math.sqrt((-xCoord ** 2) + (1000 * xCoord) + 240000)
+
+def diff(c1, c2):
+	return c2 - c1
 
 def animateSun(window, sun):
+	xCoord = canvasSize + 35
 	height = (70 / 100) * canvasSize
 	heightLeft = (30 / 100) * canvasSize
 	width = canvasSize + 400
@@ -71,10 +75,19 @@ def animateSun(window, sun):
 	heightIncrement =  heightLeft / (width / 2)
 	for i in range(0, width):
 		time.sleep(0.01)
-		if (i <= (width / 2)):
-			sun.move(-1, heightIncrement)
-		else:
-			sun.move(-1, -heightIncrement)
+		oldX = xCoord
+		xCoord = xCoord - 1
+
+		xDiff = diff(oldX, xCoord)
+		yDiff = diff(calculateYCoord(oldX), calculateYCoord(xCoord))
+
+		print("Diff; x:" + str(xDiff) + " y:" + str(yDiff))
+
+		sun.move(xDiff, -yDiff)
+		# if (i <= (width / 2)):
+		# 	sun.move(-1, heightIncrement)
+		# else:
+		# 	sun.move(-1, -heightIncrement)
 
 	sun = createSun(window)
 	animateSun(window, sun)
