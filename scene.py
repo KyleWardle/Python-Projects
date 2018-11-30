@@ -37,6 +37,7 @@ def createBackground(window, skyColor, groundColor):
 	ground.setFill(groundColor)
 	ground.setOutline(groundColor)
 	ground.draw(window)
+	return sky
 
 def createMountain(window):
 	createTriangle(window, randint(0, canvasSize), (canvasSize/3), randint(0, canvasSize), "grey")
@@ -60,17 +61,64 @@ def createSun(window):
 	sun.draw(window)
 	return sun
 
+def createMoon(window):
+	moonSize = 35
+	moon = Circle(Point(canvasSize + moonSize, (70 / 100) * canvasSize), moonSize)
+	moon.setFill("white")
+	moon.setOutline("black")
+	moon.draw(window)
+	return moon
+
 def calculateYCoord(xCoord):
 	return 200 - math.sqrt((-xCoord ** 2) + (1000 * xCoord) + 240000)
 
 def diff(c1, c2):
 	return c2 - c1
 
-def animateSun(window, sun):
+def animateSun(window, sun, moon, background):
+	colorArray = {
+		1 : "#070605",
+		100 : "#ff3f00",
+		200 : "#ffc700",
+		300 : "lightblue",
+		400 : "lightblue",
+		500 : "lightblue",
+		600 : "lightblue",
+		700 : "lightblue",
+		800 : "#ffc700",
+		900 : "#ff3f00",
+		1000 : "#070605"
+	}
+
+	background.setFill("lightblue")
 	xCoord = canvasSize + 35
 	height = (70 / 100) * canvasSize
 	heightLeft = (30 / 100) * canvasSize
-	width = canvasSize + 400
+	width = canvasSize + 70
+
+	heightIncrement =  heightLeft / (width / 2)
+	for i in range(0, width):
+		if i in colorArray:
+			background.setFill(colorArray[i])
+
+		time.sleep(0.01)
+		oldX = xCoord
+		xCoord = xCoord - 1
+
+		xDiff = diff(oldX, xCoord)
+		yDiff = diff(calculateYCoord(oldX), calculateYCoord(xCoord))
+
+		sun.move(xDiff, -yDiff)
+
+	sun.move(width, 0)
+	animateMoon(window, moon, sun, background)
+
+def animateMoon(window, moon, sun, background):
+	background.setFill("black")
+	xCoord = canvasSize + 35
+	height = (70 / 100) * canvasSize
+	heightLeft = (30 / 100) * canvasSize
+	width = canvasSize + 70
 
 	heightIncrement =  heightLeft / (width / 2)
 	for i in range(0, width):
@@ -81,16 +129,11 @@ def animateSun(window, sun):
 		xDiff = diff(oldX, xCoord)
 		yDiff = diff(calculateYCoord(oldX), calculateYCoord(xCoord))
 
-		print("Diff; x:" + str(xDiff) + " y:" + str(yDiff))
+		print(calculateYCoord(oldX))
+		moon.move(xDiff, -yDiff)
 
-		sun.move(xDiff, -yDiff)
-		# if (i <= (width / 2)):
-		# 	sun.move(-1, heightIncrement)
-		# else:
-		# 	sun.move(-1, -heightIncrement)
-
-	sun = createSun(window)
-	animateSun(window, sun)
+	moon.move(width, 0)
+	animateSun(window, sun, moon, background)
 
 
 
@@ -98,11 +141,12 @@ def animateSun(window, sun):
 def createScene():
 	win = GraphWin(width = 600, height = 600) # create a window
 	win.setCoords(0, 0, canvasSize, canvasSize) # set the coordinates of the window; bottom left is (0, 0) and top right is (10, 10)
-	createBackground(win, "lightblue", "lightgreen")
+	background = createBackground(win, "black", "lightgreen")
 	sun = createSun(win)
+	moon = createMoon(win)
 	createMountains(win, randint(2, 5))
 	createForest(win)
-	animateSun(win, sun)
+	animateSun(win, sun, moon, background)
 	win.getMouse()
 
 
