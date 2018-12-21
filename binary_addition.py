@@ -81,6 +81,16 @@ def convertIntToBinary(number):
 
     return binary
 
+def binaryToDenary(binary_str):
+    binary = list(binary_str[::-1]) #flips string
+    value = 0
+
+    for i in range (0, len(binary)):
+        value += ((2 ** i) * int(binary[i]))
+
+    return value
+
+
 
 
 
@@ -95,6 +105,9 @@ print(second_binary)
 added = binary_add(first_binary, second_binary)
 print("--------")
 print(added)
+print("--------")
+denary = binaryToDenary(added)
+print(denary)
 
 
 # added = binary_add("00000111", "00000111")
