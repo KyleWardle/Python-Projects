@@ -152,16 +152,6 @@ def createScene():
 
 createScene()
 
-
-
-
-
-
-
-
-
-
-
 #mySquare = Rectangle(Point(1, 1), Point(99, 99)) # create a rectangle from (1, 1) to (9, 9)
 #mySquare.draw(win) # draw it to the window
 #win.getMouse() # pause before closing
