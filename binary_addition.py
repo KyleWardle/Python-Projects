@@ -53,7 +53,6 @@ class Binary:
     def __mul__(self, other):
         other_value_reversed = list(other.binary_value[::-1])
         total = Binary(0)
-        print(self.binary_value)
         for i in range(1, len(other_value_reversed) + 1):
             binary_val = int(self.binary_value) * int(other_value_reversed[i - 1]) * int(10 ** (i - 1))
             total = total + Binary().from_binary(str(binary_val))
@@ -132,6 +131,8 @@ def test():
     print("Passed" if (Binary(125) + Binary(125)).denary() == 250 else "Failed")
     print("Passed" if (Binary(5) - Binary(10)).denary() == -5 else "Failed")
     print("Passed" if (Binary(255) - Binary(120)).denary() == 135 else "Failed")
+    print("Passed" if (Binary(4) * Binary(5)).denary() == 20 else "Failed")
+    print("Passed" if (Binary(125) * Binary(1000)).denary() == 125000 else "Failed")
 
 
 def main():
@@ -168,6 +169,6 @@ def main():
         print("Thanks.")
 
 
-# test()
+test()
 
 main()
