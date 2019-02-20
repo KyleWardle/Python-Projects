@@ -13,7 +13,7 @@ class Binary:
     def __init__(self, integer: int = None):
         self.binary_value = self.convert_int_to_binary(integer) if integer is not None else None
 
-    def from_binary(self, binary):
+    def from_binary(self, binary):  # init from binary as opposed to an integer
         self.binary_value = binary
         return self
 
