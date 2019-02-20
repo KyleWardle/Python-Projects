@@ -99,17 +99,27 @@ class Binary:
         return binary
 
 
-first_denary = input_number("Enter your first Integer to add: ")
-first_binary = Binary(first_denary)
-print(first_binary)
+def main():
+    first_denary = input_number("Enter your first Integer to add: ")
+    first_binary = Binary(first_denary)
+    print(first_binary)
 
-second_denary = input_number("Enter your second Integer to add: ")
-second_binary = Binary(second_denary)
-print(second_binary)
+    second_denary = input_number("Enter your second Integer to add: ")
+    second_binary = Binary(second_denary)
+    print(second_binary)
 
-added = first_binary + second_binary
-print("--------")
-print(added)
-print("--------")
+    added = first_binary + second_binary
+    print("--------")
+    print(added)
+    print("--------")
 
-print(added.denary())
+    print(added.denary())
+
+    try_again = str(input("Do you want to try again? "))
+    if try_again.lower() in ["yes", "y", "yea"]:
+        main()
+    else:
+        print("Thanks.")
+
+
+main()
