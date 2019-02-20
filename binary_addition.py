@@ -44,22 +44,27 @@ class Binary:
 
         return Binary().from_binary(final_added[::-1])
 
+    def __sub__(self, other):
+        return self + (- other)
+
+    def __neg__(self):
+        return self.make_binary_negative()
+
     def denary(self):
         binary = list(self.binary_value[::-1])  # flips string
         value = 0
         for i in range(0, len(binary)):
             value += ((2 ** i) * int(binary[i]))
-        return value
+        return int(value)
 
     def convert_int_to_binary(self, number):
-        print(number)
         neg = False
         if number < 0:
             neg = True
         binary = self.positive_binary_convert(abs(number))
         if neg:
-            binary = self.make_binary_negative(binary)
-        return binary
+            binary = binary.make_binary_negative()
+        return binary.binary_value
 
     def positive_binary_convert(self, integer):
         before = ""
@@ -73,11 +78,15 @@ class Binary:
                 finished = True
         before = self.allocate_bits(before)
         binary = before[::-1]  # Flips the string
-        return binary
+        return Binary().from_binary(binary)
 
-    def make_binary_negative(self, binary):
-        flipped = Binary().from_binary(self.flip_bits(binary))
-        return str(flipped + Binary().from_binary("00000001"))
+    def make_binary_negative(self, binary=None):
+        if binary is not None:
+            flipped = Binary().from_binary(binary).flip_bits()
+        else:
+            flipped = self.flip_bits()
+
+        return flipped + Binary().from_binary("00000001")
 
     @staticmethod
     def allocate_bits(value):
@@ -90,30 +99,46 @@ class Binary:
             value = value + "0"
         return value
 
-    @staticmethod
-    def flip_bits(binary):
-        binary_list = list(binary)
-        for i in range(0, len(binary)):
+    def flip_bits(self):
+        binary_list = list(self.binary_value)
+
+        for i in range(0, len(self.binary_value)):
             binary_list[i] = "1" if binary_list[i] == "0" else "0"
         binary = "".join(binary_list)
-        return binary
+        return Binary().from_binary(binary)
+
+
+def test():
+    print("Passed" if (Binary(5) + Binary(10)).denary() == 15 else "Failed")
+    print("Passed" if (Binary(125) + Binary(125)).denary() == 250 else "Failed")
+    print("Passed" if (Binary(5) - Binary(10)).denary() == -5 else "Failed")
+    print("Passed" if (Binary(255) - Binary(120)).denary() == 135 else "Failed")
 
 
 def main():
-    first_denary = input_number("Enter your first Integer to add: ")
+    sum_type = str(input("What do you want to do (add, take, divide, multiply)? "))
+
+    first_denary = input_number("Enter your first Integer: ")
     first_binary = Binary(first_denary)
     print(first_binary)
 
-    second_denary = input_number("Enter your second Integer to add: ")
+    second_denary = input_number("Enter your second Integer: ")
     second_binary = Binary(second_denary)
     print(second_binary)
 
-    added = first_binary + second_binary
-    print("--------")
-    print(added)
-    print("--------")
+    if sum_type in ["add", "+"]:
+        added = first_binary + second_binary
+        print("--------")
+        print(added)
+        print("--------")
+        print(added.denary())
 
-    print(added.denary())
+    elif sum_type in ['take', '-']:
+        subtracted = first_binary - second_binary
+        print("--------")
+        print(subtracted)
+        print("--------")
+        print(subtracted.denary())
 
     try_again = str(input("Do you want to try again? "))
     if try_again.lower() in ["yes", "y", "yea"]:
@@ -121,5 +146,7 @@ def main():
     else:
         print("Thanks.")
 
+
+test()
 
 main()
