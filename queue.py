@@ -40,7 +40,7 @@ class Queue:
     def __len__(self):
         return self.length
 
-    def Peek(self):
+    def peek(self):
         return self.head.value
 
 
