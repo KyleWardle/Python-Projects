@@ -1,4 +1,4 @@
-bits = 1024
+bits = 64
 
 
 def input_number(message):
@@ -16,8 +16,8 @@ class Binary:
     def __init__(self, integer: int = None):
         self.binary_value = self.convert_int_to_binary(integer) if integer is not None else None
 
-    def from_binary(self, binary):  # init from binary as opposed to an integer
-        self.binary_value = binary
+    def from_binary(self, binary: str):  # init from binary as opposed to an integer
+        self.binary_value = self.allocate_bits(binary[::-1])[::-1]
         return self
 
     def __str__(self):
@@ -49,6 +49,15 @@ class Binary:
 
     def __sub__(self, other):
         return self + (- other)
+
+    def __mul__(self, other):
+        other_value_reversed = list(other.binary_value[::-1])
+        total = Binary(0)
+        print(self.binary_value)
+        for i in range(1, len(other_value_reversed) + 1):
+            binary_val = int(self.binary_value) * int(other_value_reversed[i - 1]) * int(10 ** (i - 1))
+            total = total + Binary().from_binary(str(binary_val))
+        return total
 
     def __neg__(self):
         return self.change_state()
@@ -142,6 +151,8 @@ def main():
         calculated = first_binary + second_binary
     elif sum_type in ['take', '-']:
         calculated = first_binary - second_binary
+    elif sum_type in ['multiply', 'times', 'x', '*']:
+        calculated = first_binary * second_binary
     else:
         calculated = None
         main()
