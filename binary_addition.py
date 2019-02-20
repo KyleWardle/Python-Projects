@@ -1,3 +1,6 @@
+bits = 64
+
+
 def input_number(message):
     while True:
         try:
@@ -48,14 +51,21 @@ class Binary:
         return self + (- other)
 
     def __neg__(self):
-        return self.make_binary_negative()
+        return self.change_state()
 
     def denary(self):
-        binary = list(self.binary_value[::-1])  # flips string
+        binary = list(self.binary_value)  # flips string
         value = 0
-        for i in range(0, len(binary)):
-            value += ((2 ** i) * int(binary[i]))
-        return int(value)
+        if binary[0] == "1":
+            binary = list(self.change_state().binary_value[::-1])
+            for i in range(0, len(binary) - 1):
+                value += ((2 ** i) * int(binary[i]))
+            return -int(value)
+        elif binary[0] == "0":
+            binary = list(self.binary_value[::-1])
+            for i in range(0, len(binary) - 1):
+                value += ((2 ** i) * int(binary[i]))
+            return int(value)
 
     def convert_int_to_binary(self, number):
         neg = False
@@ -63,7 +73,7 @@ class Binary:
             neg = True
         binary = self.positive_binary_convert(abs(number))
         if neg:
-            binary = binary.make_binary_negative()
+            binary = binary.change_state()
         return binary.binary_value
 
     def positive_binary_convert(self, integer):
@@ -80,21 +90,21 @@ class Binary:
         binary = before[::-1]  # Flips the string
         return Binary().from_binary(binary)
 
-    def make_binary_negative(self, binary=None):
+    def change_state(self, binary=None): # Change from negative to positive
         if binary is not None:
             flipped = Binary().from_binary(binary).flip_bits()
         else:
             flipped = self.flip_bits()
 
-        return flipped + Binary().from_binary("00000001")
+        return flipped + Binary(1)
 
     @staticmethod
     def allocate_bits(value):
         length = len(value)
-        if length < 8:
-            rem = 8 - length
+        if length < bits:
+            rem = bits - length
         else:
-            rem = length % 8
+            rem = length % bits
         for i in range(0, rem):
             value = value + "0"
         return value
@@ -147,6 +157,6 @@ def main():
         print("Thanks.")
 
 
-test()
+# test()
 
 main()
