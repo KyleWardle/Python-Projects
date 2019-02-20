@@ -1,4 +1,4 @@
-bits = 64
+bits = 1024
 
 
 def input_number(message):
@@ -90,7 +90,7 @@ class Binary:
         binary = before[::-1]  # Flips the string
         return Binary().from_binary(binary)
 
-    def change_state(self, binary=None): # Change from negative to positive
+    def change_state(self, binary=None):  # Change from negative to positive
         if binary is not None:
             flipped = Binary().from_binary(binary).flip_bits()
         else:
@@ -136,19 +136,19 @@ def main():
     second_binary = Binary(second_denary)
     print(second_binary)
 
-    if sum_type in ["add", "+"]:
-        added = first_binary + second_binary
-        print("--------")
-        print(added)
-        print("--------")
-        print(added.denary())
+    print("--------")
 
+    if sum_type in ["add", "+"]:
+        calculated = first_binary + second_binary
     elif sum_type in ['take', '-']:
-        subtracted = first_binary - second_binary
-        print("--------")
-        print(subtracted)
-        print("--------")
-        print(subtracted.denary())
+        calculated = first_binary - second_binary
+    else:
+        calculated = None
+        main()
+
+    print(calculated)
+    print("--------")
+    print(calculated.denary())
 
     try_again = str(input("Do you want to try again? "))
     if try_again.lower() in ["yes", "y", "yea"]:
