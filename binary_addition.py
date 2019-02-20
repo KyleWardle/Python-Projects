@@ -11,10 +11,7 @@ def input_number(message):
 
 class Binary:
     def __init__(self, integer: int = None):
-        if integer is not None:
-            self.binary_value = self.convert_int_to_binary(integer)
-        else:
-            self.binary_value = None
+        self.binary_value = self.convert_int_to_binary(integer) if integer is not None else None
 
     def from_binary(self, binary):
         self.binary_value = binary
