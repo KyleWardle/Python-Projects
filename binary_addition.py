@@ -1,3 +1,6 @@
+from tqdm import tqdm
+
+
 class MaximumValueException(Exception):
     pass
 
@@ -48,7 +51,7 @@ class Binary:
     def __mul__(self, other):
         other_value_reversed = list(other.binary_value[::-1])
         total = Binary(self.app, 0)
-        for i in range(1, len(other_value_reversed) + 1):
+        for i in tqdm(range(1, len(other_value_reversed) + 1)):
             binary_val = int(self.binary_value) * int(other_value_reversed[i - 1]) * int(10 ** (i - 1))
             total = total + Binary(self.app).from_binary(str(binary_val))
         return total
@@ -69,15 +72,15 @@ class Binary:
             if divisor <= Binary(self.app).from_binary(cur_div):
                 answer = answer + "1"
                 take_away = divisor * Binary(self.app).from_binary(answer)
+                # print(take_away)
+                # print(Binary(self.app).from_binary(cur_div))
                 cur_div = (Binary(self.app).from_binary(cur_div) - take_away).binary_value
 
             else:
-                answer = answer + "0"
+                if 0 < len(answer):  # If the first digit has been placed
+                    answer = answer + "0"
 
-        print(answer)
-        answer = Binary(self.app).from_binary(answer)
-        print(answer.denary())
-        return self
+        return Binary(self.app).from_binary(answer)
 
     def __neg__(self):
         return self.change_state()
@@ -105,7 +108,7 @@ class Binary:
             binary = binary.change_state()
         return binary.binary_value
 
-    def positive_binary_convert(self, integer):
+    def positive_binary_convert(self, integer):  # Converts a positive denary number to binary
         before = ""
         finished = False
         while not finished:
@@ -129,12 +132,15 @@ class Binary:
 
     def allocate_bits(self, value):
         length = len(value)
-        if length < self.app.bits:
-            rem = self.app.bits - length
-        else:
-            rem = length % self.app.bits
-        for i in range(0, rem):
-            value = value + "0"
+        rem = self.app.bits - length
+
+        if rem > 0:
+            for i in range(0, rem):
+                value = value + "0"
+
+        if rem < 0:
+            for i in range(0, abs(rem)):
+                value = value[:-1]
         return value
 
     def flip_bits(self):
@@ -204,10 +210,9 @@ class Application:
         else:
             return None
 
-    @staticmethod
-    def output_calculated(calculated):
+    def output_calculated(self, calculated):
         print(calculated)
-        print("--------")
+        self.output_spacer()
         print(calculated.denary())
 
     def retry(self):
@@ -224,6 +229,9 @@ class Application:
         print("Passed" if (Binary(self, 255) - Binary(self, 120)).denary() == 135 else "Failed")
         print("Passed" if (Binary(self, 4) * Binary(self, 5)).denary() == 20 else "Failed")
         print("Passed" if (Binary(self, 125) * Binary(self, 1000)).denary() == 125000 else "Failed")
+        print("Passed" if (Binary(self, 10) / Binary(self, 2)).denary() == 5 else "Failed")
+        print("Passed" if (Binary(self, 28788718) / Binary(self, 23198)).denary() == 1241 else "Failed")
+        print((Binary(self, 13680) / Binary(self, 912)).denary())
 
     def start(self):
         self.welcome_message()
@@ -240,4 +248,4 @@ class Application:
         self.retry()
 
 
-Application().start()
+Application(2048).start()
