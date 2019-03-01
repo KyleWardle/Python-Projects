@@ -1,19 +1,14 @@
-bits = 16
+class MaximumValueException(Exception):
+    pass
 
 
-def input_number(message):
-    while True:
-        try:
-            user_input = int(input(message))
-        except ValueError:
-            print("Not an integer! Try again.")
-            continue
-        else:
-            return user_input
+class MinimumValueException(Exception):
+    pass
 
 
 class Binary:
-    def __init__(self, integer: int = None):
+    def __init__(self, application, integer: int = None):
+        self.app = application
         self.binary_value = self.convert_int_to_binary(integer) if integer is not None else None
 
     def from_binary(self, binary: str):  # init from binary as opposed to an integer
@@ -45,17 +40,17 @@ class Binary:
                 final_added = final_added + str(added_val - 2)
                 carry = True
 
-        return Binary().from_binary(final_added[::-1])
+        return Binary(self.app).from_binary(final_added[::-1])
 
     def __sub__(self, other):
         return self + (- other)
 
     def __mul__(self, other):
         other_value_reversed = list(other.binary_value[::-1])
-        total = Binary(0)
+        total = Binary(self.app, 0)
         for i in range(1, len(other_value_reversed) + 1):
             binary_val = int(self.binary_value) * int(other_value_reversed[i - 1]) * int(10 ** (i - 1))
-            total = total + Binary().from_binary(str(binary_val))
+            total = total + Binary(self.app).from_binary(str(binary_val))
         return total
 
     def __ge__(self, other):
@@ -71,16 +66,16 @@ class Binary:
 
         for i in range(0, len(dividend)):
             cur_div = cur_div + dividend[i]
-            if divisor <= Binary().from_binary(cur_div):
+            if divisor <= Binary(self.app).from_binary(cur_div):
                 answer = answer + "1"
-                take_away = divisor * Binary().from_binary(answer)
-                cur_div = (Binary().from_binary(cur_div) - take_away).binary_value
+                take_away = divisor * Binary(self.app).from_binary(answer)
+                cur_div = (Binary(self.app).from_binary(cur_div) - take_away).binary_value
 
             else:
                 answer = answer + "0"
 
         print(answer)
-        answer = Binary().from_binary(answer)
+        answer = Binary(self.app).from_binary(answer)
         print(answer.denary())
         return self
 
@@ -122,23 +117,22 @@ class Binary:
                 finished = True
         before = self.allocate_bits(before)
         binary = before[::-1]  # Flips the string
-        return Binary().from_binary(binary)
+        return Binary(self.app).from_binary(binary)
 
     def change_state(self, binary=None):  # Change from negative to positive
         if binary is not None:
-            flipped = Binary().from_binary(binary).flip_bits()
+            flipped = Binary(self.app).from_binary(binary).flip_bits()
         else:
             flipped = self.flip_bits()
 
-        return flipped + Binary(1)
+        return flipped + Binary(self.app, 1)
 
-    @staticmethod
-    def allocate_bits(value):
+    def allocate_bits(self, value):
         length = len(value)
-        if length < bits:
-            rem = bits - length
+        if length < self.app.bits:
+            rem = self.app.bits - length
         else:
-            rem = length % bits
+            rem = length % self.app.bits
         for i in range(0, rem):
             value = value + "0"
         return value
@@ -149,54 +143,101 @@ class Binary:
         for i in range(0, len(self.binary_value)):
             binary_list[i] = "1" if binary_list[i] == "0" else "0"
         binary = "".join(binary_list)
-        return Binary().from_binary(binary)
+        return Binary(self.app).from_binary(binary)
 
 
-def test():
-    print("Passed" if (Binary(5) + Binary(10)).denary() == 15 else "Failed")
-    print("Passed" if (Binary(125) + Binary(125)).denary() == 250 else "Failed")
-    print("Passed" if (Binary(5) - Binary(10)).denary() == -5 else "Failed")
-    print("Passed" if (Binary(255) - Binary(120)).denary() == 135 else "Failed")
-    print("Passed" if (Binary(4) * Binary(5)).denary() == 20 else "Failed")
-    print("Passed" if (Binary(125) * Binary(1000)).denary() == 125000 else "Failed")
+class Application:
+    def __init__(self, bits=8):
+        self.bits = bits
+        self.max_bound = (2 ** (self.bits - 1)) - 1
+        self.min_bound = self.max_bound * -1
+
+    def welcome_message(self):
+        print("Welcome to the Binary Calculator!")
+        print("---------------------------------")
+        print("This Calculator is currently set to " + str(self.bits) + " bits.")
+        print("The Maximum Bound of the calculator is " + str(self.max_bound))
+        print("The Minimum Bound of the calculator is " + str(self.min_bound))
+
+    def input_number(self, message):
+        while True:
+            try:
+                user_input = int(input(message))
+                if user_input > self.max_bound:
+                    raise MaximumValueException()
+                if user_input < self.min_bound:
+                    raise MinimumValueException()
+
+            except ValueError:
+                print("Not an integer! Try again.")
+                continue
+            except MaximumValueException:
+                print('Value above maximum bound of ' + str(self.max_bound))
+            except MinimumValueException:
+                print('Value below minimum bound of ' + str(self.min_bound))
+
+            else:
+                return user_input
+
+    @staticmethod
+    def input_sum_type():
+        return str(input("What do you want to do (add, take, divide, multiply)? "))
+
+    def input_integer(self, message):
+        denary = self.input_number(message)
+        binary = Binary(self, denary)
+        print(binary)
+        return binary
+
+    @staticmethod
+    def output_spacer():
+        print("--------")
+
+    @staticmethod
+    def calculate(sum_type, first_binary, second_binary):
+        if sum_type in ["add", "+"]:
+            return first_binary + second_binary
+        elif sum_type in ['take', '-']:
+            return first_binary - second_binary
+        elif sum_type in ['multiply', 'times', 'x', '*']:
+            return first_binary * second_binary
+        else:
+            return None
+
+    @staticmethod
+    def output_calculated(calculated):
+        print(calculated)
+        print("--------")
+        print(calculated.denary())
+
+    def retry(self):
+        try_again = str(input("Do you want to try again? "))
+        if try_again.lower() in ["yes", "y", "yea"]:
+            self.main()
+        else:
+            print("Thanks.")
+
+    def test(self):
+        print("Passed" if (Binary(self, 5) + Binary(self, 10)).denary() == 15 else "Failed")
+        print("Passed" if (Binary(self, 125) + Binary(self, 125)).denary() == 250 else "Failed")
+        print("Passed" if (Binary(self, 5) - Binary(self, 10)).denary() == -5 else "Failed")
+        print("Passed" if (Binary(self, 255) - Binary(self, 120)).denary() == 135 else "Failed")
+        print("Passed" if (Binary(self, 4) * Binary(self, 5)).denary() == 20 else "Failed")
+        print("Passed" if (Binary(self, 125) * Binary(self, 1000)).denary() == 125000 else "Failed")
+
+    def start(self):
+        self.welcome_message()
+        self.main()
+
+    def main(self):
+        sum_type = self.input_sum_type()
+        first_binary = self.input_integer("Enter your first Integer: ")
+        second_binary = self.input_integer("Enter your Second Integer: ")
+        self.output_spacer()
+        calculated = self.calculate(sum_type, first_binary, second_binary)
+        if calculated is not None:
+            self.output_calculated(calculated)
+        self.retry()
 
 
-def main():
-    test123 = Binary(12) / Binary(2)
-    # print(test123)
-    # sum_type = str(input("What do you want to do (add, take, divide, multiply)? "))
-    #
-    # first_denary = input_number("Enter your first Integer: ")
-    # first_binary = Binary(first_denary)
-    # print(first_binary)
-    #
-    # second_denary = input_number("Enter your second Integer: ")
-    # second_binary = Binary(second_denary)
-    # print(second_binary)
-    #
-    # print("--------")
-    #
-    # if sum_type in ["add", "+"]:
-    #     calculated = first_binary + second_binary
-    # elif sum_type in ['take', '-']:
-    #     calculated = first_binary - second_binary
-    # elif sum_type in ['multiply', 'times', 'x', '*']:
-    #     calculated = first_binary * second_binary
-    # else:
-    #     calculated = None
-    #     main()
-    #
-    # print(calculated)
-    # print("--------")
-    # print(calculated.denary())
-    #
-    # try_again = str(input("Do you want to try again? "))
-    # if try_again.lower() in ["yes", "y", "yea"]:
-    #     main()
-    # else:
-    #     print("Thanks.")
-
-
-# test()
-
-main()
+Application().start()
