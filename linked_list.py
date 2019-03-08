@@ -1,45 +1,89 @@
-class Node:
-  def __init__(self, value, next_node):
-    self.value = value
-    self.next_node = next_node
+class ArrayOverrunException(Exception):
+    pass
 
-  def print_all(self, string = "["):
-    string += str(self.value) + ","
-    if (self.next_node):
-      self.next_node.print_all(string)
-    else:
-      string = string[:-1]
-      string += "]"
-      print(string)
+
+class Node:
+    def __init__(self, value, next_node):
+        self.value = value
+        self.next_node = next_node
+
+    def print_all(self, string="["):
+        string += str(self.value) + ","
+        if self.next_node:
+            self.next_node.print_all(string)
+        else:
+            string = string[:-1]
+            string += "]"
+            print(string)
+
 
 class NewArray:
-  def __init__(self, value):
-    self.first_node = Node(value, None)
-    self.last_node = None
+    def __init__(self, value):
+        self.first_node = Node(value, None)
+        self.last_node = None
 
-  def append(self, value):
-    new_node = Node(value, None)
-    if (self.last_node):
-      self.last_node.next_node = new_node
-    else:
-      self.first_node.next_node = new_node
+    def append(self, value):
+        new_node = Node(value, None)
+        if self.last_node:
+            self.last_node.next_node = new_node
+        else:
+            self.first_node.next_node = new_node
 
-    self.last_node = new_node
+        self.last_node = new_node
 
-  def output(self):
-    self.first_node.print_all()
+    def output(self):
+        self.first_node.print_all()
 
-# Node4 = Node(82, None)
-# Node3 = Node(52, Node4)
-# Node2 = Node(11, Node3)
-# Node1 = Node(15, Node2)
+    def get(self, index):
+        node = self.first_node
+        for i in range(0, index + 1):
+            if i == index:
+                return node.value
+            if node.next_node:
+                node = node.next_node
+            else:
+                raise ArrayOverrunException('Array Overrun!')
 
-# Node1.print_all()
+    def set(self, index, value):
+        node = self.first_node
+        for i in range(0, index + 1):
+            if i == index:
+                node.value = value
+                return True
+            if node.next_node:
+                node = node.next_node
+            else:
+                raise ArrayOverrunException('Array Overrun!')
 
-new_arr = NewArray(1)
-new_arr.append(2)
-new_arr.append(3)
-new_arr.append(4)
-new_arr.append(5)
+    def swap(self, from_index, to_index):
+        from_value = self.get(from_index)
+        to_value = self.get(to_index)
+        self.set(from_index, to_value)
+        self.set(to_index, from_value)
+        return True
 
-new_arr.output()
+
+def init_test_array():
+    new_arr = NewArray(1)
+    new_arr.append(2)
+    new_arr.append(3)
+    new_arr.append(4)
+    return new_arr
+
+
+def main():
+    new_arr = init_test_array()
+    new_arr.swap(0, 1)
+    new_arr.output()
+
+    new_arr = init_test_array()
+    new_arr.swap(2, 3)
+    new_arr.output()
+
+    new_arr = init_test_array()
+    new_arr.swap(0, 3)
+    new_arr.output()
+
+
+if __name__ == "__main__":
+    main()
