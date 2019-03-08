@@ -67,6 +67,31 @@ class PriorityQueue:
     def __len__ (self):
         return len(self.low_priority) + len(self.med_priority) + len(self.high_priority)
 
+class UnlimitedPriorityQueue:
+    def __init__(self):
+        self.queues = {}
+
+    def Push(self, value, priority = 1):
+        if priority not in self.queues:
+            self.queues[priority] = Queue()
+        self.queues[priority].Push(value)
+
+
+    def Pop(self, highest_priority = 1):
+        for i in range(0, len(self.queues)):
+            i = i + 1
+            if ((len(self.queues[i]) > 0) and (highest_priority <= i)):
+                return self.queues[i].Pop()
+
+
+    def __len__ (self):
+        length = 0
+        for i in range(0, len(self.queues)):
+            length += len(self.queues[i+1])
+
+        return length
+
+
 def testQueue():
     queue = Queue()
     queue.Push(3)
@@ -83,12 +108,27 @@ def testQueue():
 def testPriorityQueue():
     pqueue = PriorityQueue()
     pqueue.Push(3)
-    pqueue.Push(2, 2)
-    pqueue.Push(1, 1)
+    pqueue.Push(2, 2) #Medium priority ,will be displayed second
+    pqueue.Push(1, 1) #Top Priority, will be displayed first
 
-    print(pqueue.Pop(2))
+    print("Length is : " + str(len(pqueue)))
+
     print(pqueue.Pop())
     print(pqueue.Pop())
+    print(pqueue.Pop())
 
 
-testPriorityQueue()
+def testUnlimitedPriorityQueue():
+
+    upqueue = UnlimitedPriorityQueue()
+    upqueue.Push(3, 3)
+    upqueue.Push(2, 2)
+    upqueue.Push(1, 1)
+
+    # print("Length is : " + str(len(upqueue)))
+
+    print(upqueue.Pop())
+    print(upqueue.Pop())
+    print(upqueue.Pop())
+
+testUnlimitedPriorityQueue()
