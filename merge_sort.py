@@ -145,35 +145,6 @@ class LinkedList:
         return merged
 
     def split(self):
-        node = self.first_node
-        index = (len(self) // 2)
-        print("index" + str(index))
-        first_half = LinkedList()
-        second_half = LinkedList()
-        # print(index)
-        for i in range(0, index + 1):
-            print(i)
-            if i == index:
-                second_half.first_node = node.next_node
-                second_half.last_node = self.last_node
-                second_half.length = second_half.re_calculate_length()
-
-                first_half.last_node = node
-                first_half.last_node.next_node = None
-                # print(first_half.last_node.next_node)
-                first_half.first_node = self.first_node
-                first_half.length = first_half.re_calculate_length()
-
-                return {
-                    'first_half': first_half,
-                    'second_half': second_half
-                }
-            if node.next_node:
-                node = node.next_node
-            else:
-                raise ArrayOverrunException('Array Overrun!')
-
-    def split2(self):
         slow = self.first_node
         fast = self.first_node
 
@@ -204,7 +175,7 @@ class LinkedList:
         if len(self) == 1:
             return self
         else:
-            split = self.split2()
+            split = self.split()
             a = split['first_half'].merge_sort()
             b = split['second_half'].merge_sort()
 
