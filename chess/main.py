@@ -31,11 +31,6 @@ class Application:
                 move_coords = self.board.get_coords_from_point(move_mouse)
 
                 selected_piece.move(move_coords['x'], move_coords['y'])
-            # console_input = input('Enter a reference: ')
-            # if len(console_input) == 2:
-            #     x = int(console_input[0])
-            #     y = int(console_input[1])
-            #     piece.move(x, y)
 
 
 class Board:
@@ -70,7 +65,6 @@ class Board:
             'x': int(math.floor((mouse.getX() - self.five_percent) / section_length)) + 1,
             'y': int(math.floor((mouse.getY() - self.five_percent) / section_length)) + 1
         }
-
 
     def create_squares(self):
         canvas_10_percent = self.five_percent * 2
@@ -136,27 +130,66 @@ class Board:
         }
 
     def create_pieces(self):
-        piece = Piece(self, 1, 2)
-        piece2 = Piece(self, 2, 2)
+        self.create_white_pieces()
+        self.create_black_pieces()
+
+    def create_white_pieces(self):
+        Piece(self, 1, 8, 'grey')
+        Piece(self, 2, 8, 'grey')
+        Piece(self, 3, 8, 'grey')
+        Piece(self, 4, 8, 'grey')
+        Piece(self, 5, 8, 'grey')
+        Piece(self, 6, 8, 'grey')
+        Piece(self, 7, 8, 'grey')
+        Piece(self, 8, 8, 'grey')
+
+        Pawn(self, 1, 7, 'grey')
+        Pawn(self, 2, 7, 'grey')
+        Pawn(self, 3, 7, 'grey')
+        Pawn(self, 4, 7, 'grey')
+        Pawn(self, 5, 7, 'grey')
+        Pawn(self, 6, 7, 'grey')
+        Pawn(self, 7, 7, 'grey')
+        Pawn(self, 8, 7, 'grey')
+
+    def create_black_pieces(self):
+        Piece(self, 1, 1)
+        Piece(self, 2, 1)
+        Piece(self, 3, 1)
+        Piece(self, 4, 1)
+        Piece(self, 5, 1)
+        Piece(self, 6, 1)
+        Piece(self, 7, 1)
+        Piece(self, 8, 1)
+
+        Pawn(self, 1, 2)
+        Pawn(self, 2, 2)
+        Pawn(self, 3, 2)
+        Pawn(self, 4, 2)
+        Pawn(self, 5, 2)
+        Pawn(self, 6, 2)
+        Pawn(self, 7, 2)
+        Pawn(self, 8, 2)
 
 
 class Piece:
-    def __init__(self, board, start_x, start_y):
+    def __init__(self, board, start_x, start_y, color='black'):
         self.board = board
         self.letter = "X"
+        self.color = color
         self.text = None
-        if board.positions[start_x][start_y] is None:
-            self.x = start_x
-            self.y = start_y
-            board.positions[start_x][start_y] = self
-            self.draw()
-        else:
-            raise Exception
+        self.x = None
+        self.y = None
+        self.setup_start_positions(start_x, start_y)
 
     def draw(self):
         coords = self.board.get_coords(self.x, self.y)
         point = Point(coords['x'], coords['y'])
+
+        if self.text is not None:
+            self.text.undraw()
         self.text = Text(point, self.letter)
+        self.text.setOutline(self.color)
         self.text.draw(self.board.application.window)
 
     def move(self, move_x, move_y):
@@ -180,11 +213,83 @@ class Piece:
             self.board.positions[self.x][self.y] = self
 
     def move_is_valid(self, move_x, move_y):
-        return True
         if self.board.positions[move_x][move_y] is None:
             return True
         else:
             return False
+
+    def setup_start_positions(self, start_x, start_y):
+        if self.board.positions[start_x][start_y] is None:
+            self.x = start_x
+            self.y = start_y
+            self.board.positions[start_x][start_y] = self
+            self.draw()
+        else:
+            raise Exception
+
+
+class Pawn(Piece):
+    def __init__(self, board, start_x, start_y, color='black'):
+        super().__init__(board, start_x, start_y, color)
+        self.letter = 'P'
+        self.draw()
+        self.move_count = 0
+
+    def move_is_valid(self, move_x, move_y):
+        if self.color == 'grey':
+            return self.check_grey_move(move_x, move_y)
+        else:
+            return self.check_black_move(move_x, move_y)
+
+    def check_black_move(self, move_x, move_y):
+        target = self.board.positions[move_x][move_y]
+        if target is None:
+            if (move_y > self.y) and (move_x == self.x):
+                diff = move_y - self.y
+                if diff == 1:
+                    self.move_count += 1
+                    return True
+                elif diff == 2:
+                    if self.move_count == 0:
+                        self.move_count += 1
+                        return True
+                    else:
+                        return False
+                else:
+                    return False
+            else:
+                return False
+        else:
+            if ((move_x - 1 == self.x) and (move_y - 1 == self.y)) or (
+                    (move_x + 1 == self.x) and (move_y - 1 == self.y)):
+                return True
+            else:
+                return False
+
+    def check_grey_move(self, move_x, move_y):
+        target = self.board.positions[move_x][move_y]
+        if target is None:
+            if (move_y < self.y) and (move_x == self.x):
+                diff = self.y - move_y
+                if diff == 1:
+                    self.move_count += 1
+                    return True
+                elif diff == 2:
+                    if self.move_count == 0:
+                        self.move_count += 1
+                        return True
+                    else:
+                        return False
+                else:
+                    return False
+            else:
+                return False
+        else:
+            if ((move_x - 1 == self.x) and (move_y + 1 == self.y)) or (
+                    (move_x + 1 == self.x) and (move_y + 1 == self.y)):
+                return True
+            else:
+                return False
 
 
 def main():
