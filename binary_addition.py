@@ -248,4 +248,4 @@ class Application:
         self.retry()
 
 
-Application(256).start()
+Application(1028).start()

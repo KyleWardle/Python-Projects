@@ -21,6 +21,10 @@ class NewArray:
     def __init__(self, value):
         self.first_node = Node(value, None)
         self.last_node = None
+        self.length = 0
+
+    def __len__(self):
+        return self.length
 
     def append(self, value):
         new_node = Node(value, None)
@@ -28,7 +32,7 @@ class NewArray:
             self.last_node.next_node = new_node
         else:
             self.first_node.next_node = new_node
-
+        self.length += 1
         self.last_node = new_node
 
     def output(self):
@@ -62,16 +66,24 @@ class NewArray:
         self.set(to_index, from_value)
         return True
 
+    def bubble_sort(self):
+        for a in range(0, len(self)):
+            for b in range(0, len(self)):
+                if self.get(b) > self.get(b + 1):
+                    self.swap(b, b + 1)
+        return True
+
+
 
 def init_test_array():
-    new_arr = NewArray(1)
-    new_arr.append(2)
-    new_arr.append(3)
+    new_arr = NewArray(2)
     new_arr.append(4)
+    new_arr.append(1)
+    new_arr.append(3)
     return new_arr
 
 
-def main():
+def test_swap():
     new_arr = init_test_array()
     new_arr.swap(0, 1)
     new_arr.output()
@@ -82,6 +94,21 @@ def main():
 
     new_arr = init_test_array()
     new_arr.swap(0, 3)
+    new_arr.output()
+
+def main():
+    input_val = ""
+    new_arr = None
+    while input_val != "sort":
+        input_val = input("Please enter a number, enter 'sort' to stop entering and sort the array : ")
+        if input_val != "sort":
+            if new_arr != None:
+                new_arr.append(int(input_val))
+            else:
+                new_arr = NewArray(int(input_val))
+
+    new_arr.output()
+    new_arr.bubble_sort()
     new_arr.output()
 
 
