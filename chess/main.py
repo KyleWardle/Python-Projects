@@ -1,5 +1,6 @@
 import importlib
 from graphics import *
+import math
 
 importlib.import_module("graphics")
 
@@ -20,17 +21,28 @@ class Application:
         piece = self.board.positions[1][2]
 
         while True:
-            console_input = input('Enter a reference: ')
-            if len(console_input) == 2:
-                x = int(console_input[0])
-                y = int(console_input[1])
-                piece.move(x, y)
+            mouse = self.window.getMouse()
+            coords = self.board.get_coords_from_point(mouse)
+            print(str(coords['x']) + ', ' + str(coords['y']))
+            selected_piece = self.board.positions[coords['x']][coords['y']]
+            if selected_piece is not None:
+                print("Found piece")
+                move_mouse = self.window.getMouse()
+                move_coords = self.board.get_coords_from_point(move_mouse)
+
+                selected_piece.move(move_coords['x'], move_coords['y'])
+            # console_input = input('Enter a reference: ')
+            # if len(console_input) == 2:
+            #     x = int(console_input[0])
+            #     y = int(console_input[1])
+            #     piece.move(x, y)
 
 
 class Board:
     def __init__(self, application):
         self.application = application
         self.positions = self.create_positions()
+        self.five_percent = (self.application.canvas_size / 100) * 5
         self.create_board()
 
     def create_board(self):
@@ -40,55 +52,63 @@ class Board:
         self.create_pieces()
 
     def create_outline(self):
-        canvas_5_percent = (self.application.canvas_size / 100) * 5
-        canvas_95_percent = self.application.canvas_size - canvas_5_percent
+        canvas_95_percent = self.application.canvas_size - self.five_percent
 
-        bottom_left_corner = Point(canvas_5_percent, canvas_5_percent)
+        bottom_left_corner = Point(self.five_percent, self.five_percent)
         top_right_corner = Point(canvas_95_percent, canvas_95_percent)
 
         rectangle = Rectangle(bottom_left_corner, top_right_corner)
         rectangle.draw(self.application.window)
 
+    def get_coords_from_point(self, mouse):
+        canvas_10_percent = self.five_percent * 2
+        remaining_canvas_left = self.application.canvas_size - canvas_10_percent
+
+        section_length = remaining_canvas_left / self.application.amount_of_squares
+
+        return {
+            'x': int(math.floor((mouse.getX() - self.five_percent) / section_length)) + 1,
+            'y': int(math.floor((mouse.getY() - self.five_percent) / section_length)) + 1
+        }
+
+
     def create_squares(self):
-        canvas_5_percent = (self.application.canvas_size / 100) * 5
-        canvas_10_percent = canvas_5_percent * 2
+        canvas_10_percent = self.five_percent * 2
         remaining_canvas_left = self.application.canvas_size - canvas_10_percent
 
         section_length = remaining_canvas_left / self.application.amount_of_squares
 
         for i in range(0, self.application.amount_of_squares):
-            first_point_coord = (i * section_length) + canvas_5_percent
-            second_point_coord = ((i + 1) * section_length) + canvas_5_percent
+            first_point_coord = (i * section_length) + self.five_percent
+            second_point_coord = ((i + 1) * section_length) + self.five_percent
 
-            bottom_left_corner = Point(first_point_coord, canvas_5_percent)
-            top_right_corner = Point(second_point_coord, remaining_canvas_left + canvas_5_percent)
+            bottom_left_corner = Point(first_point_coord, self.five_percent)
+            top_right_corner = Point(second_point_coord, remaining_canvas_left + self.five_percent)
             line = Rectangle(bottom_left_corner, top_right_corner)
             line.draw(self.application.window)
 
         for i in range(0, self.application.amount_of_squares):
-            first_point_coord = (i * section_length) + canvas_5_percent
-            second_point_coord = ((i + 1) * section_length) + canvas_5_percent
+            first_point_coord = (i * section_length) + self.five_percent
+            second_point_coord = ((i + 1) * section_length) + self.five_percent
 
-            bottom_left_corner = Point(canvas_5_percent, first_point_coord)
-            top_right_corner = Point(remaining_canvas_left + canvas_5_percent, second_point_coord)
+            bottom_left_corner = Point(self.five_percent, first_point_coord)
+            top_right_corner = Point(remaining_canvas_left + self.five_percent, second_point_coord)
             line = Rectangle(bottom_left_corner, top_right_corner)
             line.draw(self.application.window)
 
     def create_keys(self):
-        canvas_5_percent = (self.application.canvas_size / 100) * 5
-        canvas_10_percent = canvas_5_percent * 2
-        remaining_canvas_left = self.application.canvas_size - canvas_10_percent
+        remaining_canvas_left = self.application.canvas_size - self.five_percent * 2
 
         section_length = remaining_canvas_left / self.application.amount_of_squares
 
         numbers_array = ['1', '2', '3', '4', '5', '6', '7', '8']
         for i in range(1, self.application.amount_of_squares + 1):
-            text_location = Point(canvas_5_percent / 2, (section_length * i))
+            text_location = Point(self.five_percent / 2, (section_length * i))
             text = Text(text_location, numbers_array[i - 1])
             text.draw(self.application.window)
 
         for i in range(1, self.application.amount_of_squares + 1):
-            text_location = Point((section_length * i), canvas_5_percent / 2)
+            text_location = Point((section_length * i), self.five_percent / 2)
             text = Text(text_location, numbers_array[i - 1])
             text.draw(self.application.window)
 
@@ -106,18 +126,14 @@ class Board:
         }
 
     def get_coords(self, x, y):
-        canvas_5_percent = (self.application.canvas_size / 100) * 5
-        canvas_10_percent = canvas_5_percent * 2
-        remaining_canvas_left = self.application.canvas_size - canvas_10_percent
+        remaining_canvas_left = self.application.canvas_size - self.five_percent * 2
 
         section_length = remaining_canvas_left / self.application.amount_of_squares
 
-        return_dict = {
-            'x': canvas_5_percent + (section_length * x) - (section_length / 2),
-            'y': canvas_5_percent + (section_length * y - (section_length / 2))
+        return {
+            'x': self.five_percent + (section_length * x) - (section_length / 2),
+            'y': self.five_percent + (section_length * y - (section_length / 2))
         }
-
-        return return_dict
 
     def create_pieces(self):
         piece = Piece(self, 1, 2)
@@ -154,13 +170,17 @@ class Piece:
             self.text.move(diff_x, diff_y)
 
             self.board.positions[self.x][self.y] = None
-
             self.x = move_x
             self.y = move_y
+
+            previous_piece = self.board.positions[self.x][self.y]
+            if previous_piece is not None:
+                previous_piece.text.undraw()
 
             self.board.positions[self.x][self.y] = self
 
     def move_is_valid(self, move_x, move_y):
+        return True
         if self.board.positions[move_x][move_y] is None:
             return True
         else:

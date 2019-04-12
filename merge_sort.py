@@ -14,11 +14,11 @@ class Node:
     def print_all(self, string="["):
         string += str(self.value) + ","
         if self.next_node:
-            self.next_node.print_all(string)
+            return self.next_node.print_all(string)
         else:
             string = string[:-1]
             string += "]"
-            print(string)
+            return string
 
 
 class LinkedList:
@@ -63,10 +63,10 @@ class LinkedList:
             self.length += 1
             self.last_node = new_node
 
-    def output(self):
-        self.first_node.print_all()
+    def __str__(self):
+        return self.first_node.print_all()
 
-    def get(self, index):
+    def __getitem__(self, index):
         node = self.first_node
         for i in range(0, index + 1):
             if i == index:
@@ -88,8 +88,8 @@ class LinkedList:
                 raise ArrayOverrunException('Array Overrun!')
 
     def swap(self, from_index, to_index):
-        from_value = self.get(from_index)
-        to_value = self.get(to_index)
+        from_value = self[from_index]
+        to_value = self[to_index]
         self.set(from_index, to_value)
         self.set(to_index, from_value)
         return True
@@ -118,7 +118,7 @@ class LinkedList:
         print(len(self))
         for a in range(0, len(self) - 1):
             for b in range(0, len(self) - 1):
-                if self.get(b) > self.get(b + 1):
+                if self[b] > self[b + 1]:
                     self.swap(b, b + 1)
         return True
 
@@ -126,25 +126,26 @@ class LinkedList:
         merged = LinkedList()
 
         while len(self) > 0 and len(other) > 0:
-            if self.get(0) < other.get(0):
-                merged.append(self.get(0))
+            if self[0] < other[0]:
+                merged.append(self[0])
                 self.delete(0)
             else:
-                merged.append(other.get(0))
+                merged.append(other[0])
                 other.delete(0)
 
         if len(self) < len(other):
             for i in range(0, len(other)):
-                merged.append(other.get(0))
+                merged.append(other[0])
                 other.delete(0)
         else:
             for i in range(0, len(self)):
-                merged.append(self.get(0))
+                merged.append(self[0])
                 self.delete(0)
-
+        # print(merged)
         return merged
 
     def split(self):
+        # print(self)
         slow = self.first_node
         fast = self.first_node
 
@@ -187,8 +188,8 @@ linked_list = LinkedList()
 for i in range(1, 100):
     linked_list.append(randint(0, 100))
 
-linked_list.output()
+print(linked_list)
 
 sorted = linked_list.merge_sort()
 
-sorted.output()
+print(sorted)
