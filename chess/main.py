@@ -11,7 +11,7 @@ class Application:
         self.board = None
         self.amount_of_squares = amount_of_squares
 
-        window = GraphWin(width=400, height=400)  # create a window
+        window = GraphWin(width=1000, height=1000)  # create a window
         window.setCoords(0, 0, canvas_size, canvas_size)
         self.window = window
 
@@ -236,62 +236,55 @@ class Pawn(Piece):
         self.move_count = 0
 
     def move_is_valid(self, move_x, move_y):
+        return self.check_move(move_x, move_y)
+
+    def move_is_forward(self, move_x, move_y):
         if self.color == 'grey':
-            return self.check_grey_move(move_x, move_y)
+            return (move_y < self.y) and (move_x == self.x)
         else:
-            return self.check_black_move(move_x, move_y)
+            return (move_y > self.y) and (move_x == self.x)
 
-    def check_black_move(self, move_x, move_y):
+    def move_is_diagonal(self, move_x, move_y):
+        if self.color == 'grey':
+            return ((move_x - 1 == self.x) and (move_y + 1 == self.y)) or (
+                    (move_x + 1 == self.x) and (move_y + 1 == self.y))
+        else:
+            return ((move_x - 1 == self.x) and (move_y - 1 == self.y)) or (
+                    (move_x + 1 == self.x) and (move_y - 1 == self.y))
+
+    def calculate_squares_moved_forward(self, move_y):
+        if self.color == 'grey':
+            return self.y - move_y
+        else:
+            return move_y - self.y
+
+    def check_move(self, move_x, move_y):
         target = self.board.positions[move_x][move_y]
         if target is None:
-            if (move_y > self.y) and (move_x == self.x):
-                diff = move_y - self.y
-                if diff == 1:
+            if self.move_is_forward(move_x, move_y):
+                squares_moved_forward = self.calculate_squares_moved_forward(move_y)
+                print(squares_moved_forward)
+                if squares_moved_forward == 1:
                     self.move_count += 1
                     return True
-                elif diff == 2:
-                    if self.move_count == 0:
-                        self.move_count += 1
-                        return True
-                    else:
-                        return False
+                elif (squares_moved_forward == 2) and (self.move_count == 0):
+                    self.move_count += 1
+                    return True
                 else:
                     return False
             else:
                 return False
         else:
-            if ((move_x - 1 == self.x) and (move_y - 1 == self.y)) or (
-                    (move_x + 1 == self.x) and (move_y - 1 == self.y)):
-                return True
-            else:
-                return False
-
-    def check_grey_move(self, move_x, move_y):
-        target = self.board.positions[move_x][move_y]
-        if target is None:
-            if (move_y < self.y) and (move_x == self.x):
-                diff = self.y - move_y
-                if diff == 1:
-                    self.move_count += 1
-                    return True
-                elif diff == 2:
-                    if self.move_count == 0:
-                        self.move_count += 1
-                        return True
-                    else:
-                        return False
-                else:
-                    return False
-            else:
-                return False
-        else:
-            if ((move_x - 1 == self.x) and (move_y + 1 == self.y)) or (
-                    (move_x + 1 == self.x) and (move_y + 1 == self.y)):
+            if self.move_is_diagonal(move_x, move_y) and target.color != self.color:
+                self.move_count += 1
                 return True
             else:
                 return False
 
 
+# For rooks : One can be whatever whereas one has to be 0. Need to figure out if things are in way
+# For Bishops : The difference of both have to be the same, need to figure out if things are in way
+# Maybe do a for loop over the 'path' of the piece on each square?
 def main():
     application = Application(1000)
     application.start()

@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2b508b32-de07-44bf-931b-3dd6d919c3bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/chess/graphics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chess/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/chess/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merge_sort.py" beforeDir="false" afterPath="$PROJECT_DIR$/merge_sort.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,7 +13,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1555102707415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chess" />
+    <SUITE FILE_PATH="coverage/PythonProject$main.coverage" NAME="main Coverage Results" MODIFIED="1556227888725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chess" />
     <SUITE FILE_PATH="coverage/PythonProject$queue.coverage" NAME="queue Coverage Results" MODIFIED="1552753109291" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Python$merge_sort.coverage" NAME="merge_sort Coverage Results" MODIFIED="1552664928957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Python$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1552664820542" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
@@ -26,7 +25,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/merge_sort.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="491">
+            <state relative-caret-position="2875">
               <caret line="126" selection-start-line="126" selection-end-line="126" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
@@ -38,8 +37,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chess/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="178" column="16" selection-start-line="178" selection-start-column="16" selection-end-line="178" selection-end-column="16" />
+            <state relative-caret-position="302">
+              <caret line="247" column="32" lean-forward="true" selection-start-line="247" selection-start-column="32" selection-end-line="247" selection-end-column="32" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
               </folding>
@@ -50,8 +49,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chess/graphics.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="480" column="66" lean-forward="true" selection-start-line="480" selection-start-column="66" selection-end-line="480" selection-end-column="66" />
+            <state relative-caret-position="11040">
+              <caret line="480" column="66" selection-start-line="480" selection-start-column="66" selection-end-line="480" selection-end-column="66" />
             </state>
           </provider>
         </entry>
@@ -131,8 +130,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-1711" />
-    <option name="y" value="451" />
+    <option name="x" value="47" />
+    <option name="y" value="-8" />
     <option name="width" value="1750" />
     <option name="height" value="980" />
   </component>
@@ -475,7 +474,8 @@
       <workItem from="1552752990917" duration="429000" />
       <workItem from="1552753432817" duration="5979000" />
       <workItem from="1552936684206" duration="1921000" />
-      <workItem from="1555100417057" duration="2284000" />
+      <workItem from="1555100417057" duration="6822000" />
+      <workItem from="1556213442005" duration="4326000" />
     </task>
     <task id="LOCAL-00001" summary="Merge sort">
       <created>1552757904155</created>
@@ -491,22 +491,36 @@
       <option name="project" value="LOCAL" />
       <updated>1552757992074</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Refactored and added clicking on the board. You can also take other items">
+      <created>1555102748619</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1555102748619</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added pawns">
+      <created>1555106315882</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1555106315882</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11025000" />
+    <option name="totallyTimeSpent" value="19889000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="451" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31183368" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23489666" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30211818" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.14399363" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39936358" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -532,7 +546,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Merge sort" />
     <MESSAGE value="Removed redundant func" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed redundant func" />
+    <MESSAGE value="Refactored and added clicking on the board. You can also take other items" />
+    <MESSAGE value="Added pawns" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added pawns" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_bundle/pydevd_process_net_command.py">
@@ -567,11 +583,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/merge_sort.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="491">
+        <state relative-caret-position="2875">
           <caret line="126" selection-start-line="126" selection-end-line="126" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chess/graphics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11040">
+          <caret line="480" column="66" selection-start-line="480" selection-start-column="66" selection-end-line="480" selection-end-column="66" />
         </state>
       </provider>
     </entry>
@@ -607,17 +630,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chess/graphics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="480" column="66" lean-forward="true" selection-start-line="480" selection-start-column="66" selection-end-line="480" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chess/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="178" column="16" selection-start-line="178" selection-start-column="16" selection-end-line="178" selection-end-column="16" />
+        <state relative-caret-position="302">
+          <caret line="247" column="32" lean-forward="true" selection-start-line="247" selection-start-column="32" selection-end-line="247" selection-end-column="32" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
           </folding>
