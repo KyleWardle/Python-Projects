@@ -31,6 +31,13 @@ class Pawn(Piece):
         else:
             return move_y - self.y
 
+    def calculate_square_in_front(self):
+        if self.color == 'grey':
+            y = self.y - 1
+        else:
+            y = self.y + 1
+        return self.board.positions[self.x][y]
+
     def check_move(self, move_x, move_y):
         target = self.board.positions[move_x][move_y]
         if target is None:
@@ -41,8 +48,12 @@ class Pawn(Piece):
                     self.move_count += 1
                     return True
                 elif (squares_moved_forward == 2) and (self.move_count == 0):
-                    self.move_count += 1
-                    return True
+                    square_in_front = self.calculate_square_in_front()
+                    if square_in_front is None:
+                        self.move_count += 1
+                        return True
+                    else:
+                        return False
                 else:
                     return False
             else:
