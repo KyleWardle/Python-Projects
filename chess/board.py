@@ -1,6 +1,7 @@
 import math
 from pieces.piece import *
 from pieces.pawn import *
+from pieces.bishop import *
 
 class Board:
     def __init__(self, application):
@@ -105,10 +106,10 @@ class Board:
     def create_white_pieces(self):
         Piece(self, 1, 8, 'grey')
         Piece(self, 2, 8, 'grey')
-        Piece(self, 3, 8, 'grey')
+        Bishop(self, 3, 8, 'grey')
         Piece(self, 4, 8, 'grey')
         Piece(self, 5, 8, 'grey')
-        Piece(self, 6, 8, 'grey')
+        Bishop(self, 6, 8, 'grey')
         Piece(self, 7, 8, 'grey')
         Piece(self, 8, 8, 'grey')
 
@@ -124,10 +125,10 @@ class Board:
     def create_black_pieces(self):
         Piece(self, 1, 1)
         Piece(self, 2, 1)
-        Piece(self, 3, 1)
+        Bishop(self, 3, 1)
         Piece(self, 4, 1)
         Piece(self, 5, 1)
-        Piece(self, 6, 1)
+        Bishop(self, 6, 1)
         Piece(self, 7, 1)
         Piece(self, 8, 1)
 

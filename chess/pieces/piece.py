@@ -14,6 +14,7 @@ class Piece:
         self.text = None
         self.x = None
         self.y = None
+        self.move_count = 0
         self.setup_start_positions(start_x, start_y)
 
     def draw(self):
@@ -28,6 +29,7 @@ class Piece:
 
     def move(self, move_x, move_y):
         if self.move_is_valid(move_x, move_y):
+            self.move_count += 1
             own_coords = self.board.get_coords(self.x, self.y)
             new_coords = self.board.get_coords(move_x, move_y)
 

@@ -6,7 +6,6 @@ class Pawn(Piece):
         super().__init__(board, start_x, start_y, color)
         self.letter = 'P'
         self.draw()
-        self.move_count = 0
 
     def move_is_valid(self, move_x, move_y):
         return self.check_move(move_x, move_y)
@@ -45,12 +44,10 @@ class Pawn(Piece):
                 squares_moved_forward = self.calculate_squares_moved_forward(move_y)
                 print(squares_moved_forward)
                 if squares_moved_forward == 1:
-                    self.move_count += 1
                     return True
                 elif (squares_moved_forward == 2) and (self.move_count == 0):
                     square_in_front = self.calculate_square_in_front()
                     if square_in_front is None:
-                        self.move_count += 1
                         return True
                     else:
                         return False
@@ -60,7 +57,6 @@ class Pawn(Piece):
                 return False
         else:
             if self.move_is_diagonal(move_x, move_y) and target.color != self.color:
-                self.move_count += 1
                 return True
             else:
                 return False
