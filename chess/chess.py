@@ -11,7 +11,7 @@ class Application:
         self.board = None
         self.amount_of_squares = amount_of_squares
 
-        window = GraphWin(width=1000, height=1000)  # create a window
+        window = GraphWin(width=500, height=500)  # create a window
         window.setCoords(0, 0, canvas_size, canvas_size)
         self.window = window
 

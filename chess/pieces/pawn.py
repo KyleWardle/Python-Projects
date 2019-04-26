@@ -47,16 +47,10 @@ class Pawn(Piece):
                     return True
                 elif (squares_moved_forward == 2) and (self.move_count == 0):
                     square_in_front = self.calculate_square_in_front()
-                    if square_in_front is None:
-                        return True
-                    else:
-                        return False
+                    return square_in_front is None
                 else:
                     return False
             else:
                 return False
         else:
-            if self.move_is_diagonal(move_x, move_y) and target.color != self.color:
-                return True
-            else:
-                return False
+            return self.move_is_diagonal(move_x, move_y) and target.color != self.color

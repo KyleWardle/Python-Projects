@@ -12,10 +12,7 @@ class Rook(Piece):
 
     def check_move(self, move_x, move_y):
         if self.move_is_straight(move_x, move_y):
-            if self.path_has_no_obstacles(move_x, move_y):
-                return True
-            else:
-                return False
+            return self.path_has_no_obstacles(move_x, move_y)
         else:
             return False
 
