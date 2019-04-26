@@ -10,6 +10,7 @@ class Application:
         self.canvas_size = canvas_size
         self.board = None
         self.amount_of_squares = amount_of_squares
+        self.turn = 'grey'
 
         window = GraphWin(width=500, height=500)  # create a window
         window.setCoords(0, 0, canvas_size, canvas_size)
@@ -24,12 +25,15 @@ class Application:
             coords = self.board.get_coords_from_point(mouse)
             print(str(coords['x']) + ', ' + str(coords['y']))
             selected_piece = self.board.positions[coords['x']][coords['y']]
-            if selected_piece is not None:
+            if selected_piece is not None and selected_piece.color == self.turn:
                 print("Found piece")
                 move_mouse = self.window.getMouse()
                 move_coords = self.board.get_coords_from_point(move_mouse)
 
-                selected_piece.move(move_coords['x'], move_coords['y'])
+                move = selected_piece.move(move_coords['x'], move_coords['y'])
+
+                if move:  # If move was valid
+                    self.turn = 'black' if self.turn == 'grey' else 'grey'
 
 
 # For rooks : One can be whatever whereas one has to be 0. Need to figure out if things are in way

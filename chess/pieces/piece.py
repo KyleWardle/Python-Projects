@@ -45,8 +45,14 @@ class Piece:
             previous_piece = self.board.positions[self.x][self.y]
             if previous_piece is not None:
                 previous_piece.text.undraw()
+                if type(previous_piece).__name__ == 'King':
+                    raise Exception  # Win :)
 
             self.board.positions[self.x][self.y] = self
+
+            return True
+        else:
+            return False
 
     def move_is_valid(self, move_x, move_y):
         if self.board.positions[move_x][move_y] is None:
