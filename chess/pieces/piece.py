@@ -112,5 +112,4 @@ class Piece:
     def move_is_diagonal(self, move_x, move_y):
         diff_x = self.x - move_x
         diff_y = self.y - move_y
-
         return abs(diff_x) == abs(diff_y)
