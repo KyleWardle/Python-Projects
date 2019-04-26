@@ -3,6 +3,7 @@ from pieces.piece import *
 from pieces.pawn import *
 from pieces.bishop import *
 from pieces.rook import *
+from pieces.queen import *
 
 class Board:
     def __init__(self, application):
@@ -109,7 +110,7 @@ class Board:
         Piece(self, 2, 8, 'grey')
         Bishop(self, 3, 8, 'grey')
         Piece(self, 4, 8, 'grey')
-        Piece(self, 5, 8, 'grey')
+        Queen(self, 5, 8, 'grey')
         Bishop(self, 6, 8, 'grey')
         Piece(self, 7, 8, 'grey')
         Rook(self, 8, 8, 'grey')
@@ -127,7 +128,7 @@ class Board:
         Rook(self, 1, 1)
         Piece(self, 2, 1)
         Bishop(self, 3, 1)
-        Piece(self, 4, 1)
+        Queen(self, 4, 1)
         Piece(self, 5, 1)
         Bishop(self, 6, 1)
         Piece(self, 7, 1)

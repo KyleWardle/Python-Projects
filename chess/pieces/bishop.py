@@ -10,12 +10,6 @@ class Bishop(Piece):
     def move_is_valid(self, move_x, move_y):
         return self.check_move(move_x, move_y)
 
-    def move_is_diagonal(self, move_x, move_y):
-        diff_x = self.x - move_x
-        diff_y = self.y - move_y
-
-        return abs(diff_x) == abs(diff_y)
-
     @staticmethod
     def calculate_increment(diff):
         if diff < 0:
